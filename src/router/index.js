@@ -1,11 +1,11 @@
 import { createRouter,createWebHistory } from 'vue-router'
-import mainLayout from '../views/layouts/main-layout.vue'
+import LayoutMain from '../views/layouts/layout-main.vue'
 import login from '../views/login/login.vue'
 const routes = [
   {
     path: '/',
-    name: 'mainLayout',
-    component: mainLayout
+    name: 'LayoutMain',
+    component: LayoutMain
   },
   {
     path: '/login',
