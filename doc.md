@@ -15,6 +15,24 @@ vue create vue3-vite-admin
 
 ### 引入element-plus
 
+### 引入@element-plus/icons-vue
+pnpm安装
+```js
+pnpm install @element-plus/icons-vue --save
+```
+使用
+```html
+<template>
+  <el-icon :size="size" :color="color">
+      <Edit />
+  </el-icon>
+</template>
+<script>
+import {Edit } from '@element-plus/icons-vue'
+</script>
+```
+[Icon官方文档参考](https://element-plus.org/zh-CN/component/icon.html#%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95)
+
 ### 重置浏览器样式
 本项目使用normalize.css统一浏览器样式。创建本地静态文件，main.js中引入。
 

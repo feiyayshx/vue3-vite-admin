@@ -13,9 +13,17 @@ export default defineConfig(({ command,mode })=>{
         '@/': `${path.resolve(__dirname,'src')}/`
       }
     },
-    // 提供vue3单文件组件支持
+    css: {
+      preprocessorOptions:{
+        scss: {
+          additionalData: `@use '@/styles/common.scss' as *;` 
+        }
+      }
+    },
     plugins: [
+       // 提供vue3单文件组件支持
       vue(),
+      // 自动按需导入ElementPlus组件
       AutoImport({
         resolvers: [ElementPlusResolver()],
       }),

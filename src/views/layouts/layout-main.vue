@@ -1,7 +1,7 @@
 <template>
   <el-container class="el-container_wrapper">
-    <el-header>
-      <layout-header />
+    <el-header class="el-header_wrapper" height="48px">
+      <layout-header  />
     </el-header>
     <el-container>
       <el-aside width="208px">
@@ -21,5 +21,8 @@ import LayoutNav from './layout-nav.vue';
 <style lang="scss" scoped>
 .el-container_wrapper {
   height: 100%;
+  .el-header_wrapper {
+    background:#001529;
+  }
 }
 </style>

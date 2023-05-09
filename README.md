@@ -1,5 +1,5 @@
 # vue3-vite-admin
- vue3+vite 构建的后台管理系统模版
+ vue3+vite4+ElementPlus 构建的后台管理系统模版
 
  ### 项目启动
  ```
