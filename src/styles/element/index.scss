@@ -1,0 +1,12 @@
+
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'primary': (
+      'base': #abcdef,
+    ),
+  ),
+  $menu: (
+    'item-height': 44px,
+    'sub-item-height': 40px
+  ),
+);
