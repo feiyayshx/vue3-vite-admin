@@ -1,11 +1,11 @@
 <template>
   <el-container class="el-container_wrapper">
     <el-header class="el-header_wrapper" :height="headerHeight">
-      <layout-header  />
+      <BaseHeader  />
     </el-header>
     <el-container>
       <el-aside width="208px">
-        <layout-nav />
+        <NavBar />
       </el-aside>
       <el-main class="main-block">Main</el-main>
     </el-container>
@@ -13,8 +13,8 @@
 </template>
 
 <script setup>
-import LayoutHeader from './layout-header.vue';
-import LayoutNav from './layout-nav.vue';
+import BaseHeader from './components/base-header.vue';
+import NavBar from './components/nav-bar.vue';
 import {headerHeight} from '@/styles/js-var.module.scss'
 </script>
 
