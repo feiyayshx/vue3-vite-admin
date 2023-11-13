@@ -5,7 +5,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 // https://vitejs.dev/config/
-export default defineConfig(({ command,mode })=>{
+export default defineConfig(()=>{
   return {
     resolve: {
       // 配置别名
@@ -21,7 +21,7 @@ export default defineConfig(({ command,mode })=>{
       }
     },
     plugins: [
-       // 提供vue3单文件组件支持
+      // 提供vue3单文件组件支持
       vue(),
       // 自动按需导入ElementPlus组件
       AutoImport({
@@ -32,7 +32,7 @@ export default defineConfig(({ command,mode })=>{
           ElementPlusResolver({
             importStyle:'sass'
           })
-      ]
+        ]
       })
     ],
   }

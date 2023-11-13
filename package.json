@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
@@ -17,6 +18,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
+    "eslint": "^8.53.0",
+    "eslint-plugin-vue": "^9.18.1",
     "sass": "^1.59.2",
     "unplugin-auto-import": "^0.15.1",
     "unplugin-vue-components": "^0.24.1",
