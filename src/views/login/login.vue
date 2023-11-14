@@ -33,14 +33,18 @@ const form = reactive({})
 
 .login-container {
   height:100%;
+
   @include flex-column(center);
+
   background:$bgColor;
+
   .login-wrapper {
-    width: 400px;
     padding: 20px;
-    background:#fff;
-    box-shadow: 0px 0px 5px $shadowColor;
+    width: 400px;
+    background:#ffffff;
+    box-shadow: 0 0 5px $shadowColor;
   }
+
   .login-form-block {
     .login-button-block {
       .login-button-submit {

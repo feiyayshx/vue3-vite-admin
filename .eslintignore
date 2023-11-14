@@ -1,6 +1,4 @@
 dist/*
 doc/*
-.vscode
 !.eslintrc.cjs
-!.postcssrc.js
 !.stylelintrc.js

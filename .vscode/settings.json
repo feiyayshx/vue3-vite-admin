@@ -1,0 +1,22 @@
+{
+  // 保存的时候自动格式化
+  "editor.formatOnSave": true,
+  // 配置该项，新建文件时默认就是space：2
+  "editor.tabSize": 2,
+  // 保存时自动修复
+  "editor.codeActionsOnSave": {
+    "source.fixAll": false,
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+  // 编辑器默认的格式化工具
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // stylelint 需要检查的文件
+  "stylelint.validate": [
+    "css",
+    "postcss",
+    "scss",
+    "vue",
+    "sass"
+  ]
+}

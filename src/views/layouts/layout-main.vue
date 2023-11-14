@@ -21,13 +21,15 @@ import {headerHeight} from '@/styles/js-var.module.scss'
 <style lang="scss" scoped>
 .el-container_wrapper {
   height: 100%;
+
   .el-header_wrapper {
     background:#001529;
   }
+
   .main-block {
-    background-color: $background-base;
-    height: calc(100vh - 48px);
     overflow-y: auto;
+    height: calc(100vh - 48px);
+    background-color: $background-base;
   }
 }
 </style>

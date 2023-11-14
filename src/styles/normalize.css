@@ -65,9 +65,8 @@
   */
  
  html {
-     font-family: sans-serif; /* 1 */
-     -ms-text-size-adjust: 100%; /* 2 */
-     -webkit-text-size-adjust: 100%; /* 2 */
+     font-family: sans-serif; /* 1 */ /* 2 */
+     text-size-adjust: 100%; /* 2 */
  }
  
  /**
@@ -117,8 +116,8 @@
   */
  
  h1 {
-     font-size: 2em;
      margin: 0.67em 0;
+     font-size: 2em;
  }
  
  /**
@@ -151,7 +150,6 @@
   */
  
  hr {
-     -moz-box-sizing: content-box;
      box-sizing: content-box;
      height: 0;
  }
@@ -161,8 +159,8 @@
   */
  
  mark {
-     background: #ff0;
-     color: #000;
+     color: #000000;
+     background: #ffff00;
  }
  
  /**
@@ -173,8 +171,8 @@
  kbd,
  pre,
  samp {
-     font-family: monospace, serif;
      font-size: 1em;
+     font-family: monospace, serif;
  }
  
  /**
@@ -207,9 +205,9 @@
  
  sub,
  sup {
+     position: relative;
      font-size: 75%;
      line-height: 0;
-     position: relative;
      vertical-align: baseline;
  }
  
@@ -262,8 +260,8 @@
   */
  
  fieldset {
-     border: 1px solid #c0c0c0;
      margin: 0 2px;
+     border: 1px solid #c0c0c0;
      padding: 0.35em 0.625em 0.75em;
  }
  
@@ -287,9 +285,9 @@
  input,
  select,
  textarea {
-     font-family: inherit; /* 1 */
-     font-size: 100%; /* 2 */
      margin: 0; /* 3 */
+     font-size: 100%; /* 2 */
+     font-family: inherit; /* 1 */
  }
  
  /**
@@ -326,7 +324,7 @@
  html input[type="button"], /* 1 */
  input[type="reset"],
  input[type="submit"] {
-     -webkit-appearance: button; /* 2 */
+     appearance: button; /* 2 */
      cursor: pointer; /* 3 */
  }
  
@@ -357,9 +355,7 @@
   */
  
  input[type="search"] {
-     -webkit-appearance: textfield; /* 1 */
-     -moz-box-sizing: content-box;
-     -webkit-box-sizing: content-box; /* 2 */
+     appearance: textfield; /* 1 */ /* 2 */
      box-sizing: content-box;
  }
  
@@ -370,7 +366,7 @@
  
  input[type="search"]::-webkit-search-cancel-button,
  input[type="search"]::-webkit-search-decoration {
-     -webkit-appearance: none;
+     appearance: none;
  }
  
  /**
