@@ -1,19 +1,22 @@
-import { createRouter,createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import LayoutMain from '../views/layouts/layout-main.vue'
 import login from '../views/login/login.vue'
-import Dashboard from '@/views/dashboard/index.vue'
+
+// 静态路由
+const staticLayoutMainRouters = []
+// 获取modules下的路由模块
+const routerModules = import.meta.glob('@/router/modules/*.js', { eager: true })
+console.log(routerModules, 'routerModules')
+Object.keys(routerModules).forEach((key) => {
+  staticLayoutMainRouters.push(...routerModules[key].default)
+})
+
 const routes = [
   {
     path: '/',
     name: 'LayoutMain',
     component: LayoutMain,
-    children: [
-      {
-        path: '/index',
-        name: 'dashboard',
-        component:Dashboard
-      },
-    ]
+    children: staticLayoutMainRouters
   },
   {
     path: '/login',
@@ -22,7 +25,7 @@ const routes = [
   },
   {
     path: '/:pachMatch(.*)*',
-    redirect: '/',
+    redirect: '/'
   }
 ]
 
@@ -31,4 +34,11 @@ export const router = createRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  // path不存在时，导航到默认路由-TODO:改造成动态默认路由
+  if (to.path === '/') {
+    return next('/dashboard')
+  }
+  next()
+})
 export default router
