@@ -1,9 +1,17 @@
 <template>
-  <el-scrollbar max-height="100%" view-class="menu-scroll-view">
-    <el-menu class="menu-ul" :default-active="defaultActive" router @select="onMenuSelect">
-      <MenuItem v-for="menu in menuList" :key="menu.id" :menu-info="menu" />
-    </el-menu>
-  </el-scrollbar>
+  <el-aside :width="userStore.isCollapse ? 'auto' : '208px'">
+    <el-scrollbar max-height="100%" view-class="menu-scroll-view">
+      <el-menu
+        class="menu-ul"
+        :default-active="defaultActive"
+        :collapse="userStore.isCollapse"
+        router
+        @select="onMenuSelect"
+      >
+        <MenuItem v-for="menu in menuList" :key="menu.id" :menu-info="menu" />
+      </el-menu>
+    </el-scrollbar>
+  </el-aside>
 </template>
 
 <script setup>
@@ -11,7 +19,8 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import MenuItem from './menu-item.vue'
 import userApi from '@/apis/user.js'
-
+import { useUserStore } from '@/store/index.js'
+const userStore = useUserStore()
 const route = useRoute()
 // 默认选中的菜单项
 const defaultActive = ref('')

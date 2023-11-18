@@ -3,12 +3,23 @@
     <div class="header-left-block">
       <img src="/vite.svg" class="header-logo" />
       <span class="header-title">system admin</span>
+      <el-icon class="expand-icon" size="20" color="#fff" @click="setMenuCollapse">
+        <Expand v-if="userStore.isCollapse" />
+        <Fold v-else />
+      </el-icon>
     </div>
     <div class="header-right-block"></div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useUserStore } from '@/store/index.js'
+const userStore = useUserStore()
+// 设置菜单折叠状态
+const setMenuCollapse = () => {
+  userStore.setCollapse(!userStore.isCollapse)
+}
+</script>
 
 <style lang="scss" scoped>
 .header-wrapper {
@@ -26,6 +37,11 @@
 
     .header-title {
       color: #ffffff;
+    }
+
+    .expand-icon {
+      margin-left: 8px;
+      cursor: pointer;
     }
   }
 

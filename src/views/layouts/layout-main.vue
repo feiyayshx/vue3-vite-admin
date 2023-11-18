@@ -4,12 +4,13 @@
       <BaseHeader />
     </el-header>
     <el-container class="lay-content_wrapper">
-      <el-aside width="208px">
-        <BaseMenu />
-      </el-aside>
-      <el-main class="main-block">
-        <router-view></router-view>
-      </el-main>
+      <BaseMenu />
+      <section class="lay-content-right">
+        <BaseTags />
+        <el-main class="main-block">
+          <router-view></router-view>
+        </el-main>
+      </section>
     </el-container>
   </el-container>
 </template>
@@ -17,6 +18,7 @@
 <script setup>
 import BaseHeader from './components/base-header.vue'
 import BaseMenu from './components/base-menu/index.vue'
+import BaseTags from './components/base-tags.vue'
 import { headerHeight } from '@/styles/js-var.module.scss'
 </script>
 
@@ -29,12 +31,16 @@ import { headerHeight } from '@/styles/js-var.module.scss'
   }
 
   .lay-content_wrapper {
+    display: flex;
     height: calc(100vh - 48px);
   }
 
+  .lay-content-right {
+    flex: 1;
+  }
+
   .main-block {
-    // overflow: hidden;
-    height: 100%;
+    // height: 100%;
     background-color: $background-base;
   }
 }
