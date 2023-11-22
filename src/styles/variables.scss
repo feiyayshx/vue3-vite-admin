@@ -1,11 +1,41 @@
-
 // 主题色
-$color-primary: green;
+$primary-color: green;
 
-/* 背景色 */
+/* ================================ 基础变量定义start ========================= */
+$basic-white: #ffffff;
+$basic-black: #333333;
+
+// 背景色
 $background-base: #f0f2f5; // 主布局背景色
-$background-menu-active: ''; // 菜单激活状态的背景
+$bgColor: #f5f8ff;
 
+// 边框颜色
+$base-border: #d9d9d9;
+$dark-border: #eeeeee;
+
+// 字体颜色
+$base-text: #333333; // 基础中性色
+$primary-text: #262626;
+$regular-text: #666666;
+$darker-text: #8c8c8c; // 较深色字体
+$light-text: #bfbfbf; // 浅色文本色
+
+// 字体大小
+$font-size-small: 12px;
+$font-size-medium: 14px;
+$font-size-large: 16px;
+$font-size-larger: 18px;
+
+// 阴影色
 $shadowColor: #abcdef;
-$bgColor: #F5F8FF;
 
+/* =========================== 基础变量定义end ============================= */
+
+/* ======================= 模块变量定义 start =============================== */
+// 菜单激活状态的背景
+$menu-active-bg: color-mix(in srgb, $primary-color 10%, white);
+
+// 标签选中的背景色
+$tag-active-bg: color-mix(in srgb, $primary-color 10%, white);
+
+/* ======================= 模块变量定义 end =============================== */

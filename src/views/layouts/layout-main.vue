@@ -37,11 +37,13 @@ import { headerHeight } from '@/styles/js-var.module.scss'
 
   .lay-content-right {
     flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   .main-block {
-    // height: 100%;
     background-color: $background-base;
+    flex: 1;
   }
 }
 </style>

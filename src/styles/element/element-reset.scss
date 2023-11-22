@@ -1,4 +1,10 @@
+/* 菜单样式加 */
+.el-menu-item {
+  &:hover {
+    background-color: $menu-active-bg;
+  }
 
-.el-menu-item.is-active{
-  background-color: #abcdef;
+  &.is-active {
+    background-color: $menu-active-bg;
+  }
 }

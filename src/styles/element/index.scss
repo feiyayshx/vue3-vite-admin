@@ -1,12 +1,13 @@
-
+@use '../variables.scss' as vars;
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $colors: (
     'primary': (
-      'base': green,
-    ),
+      'base': vars.$primary-color
+    )
   ),
   $menu: (
     'item-height': 44px,
-    'sub-item-height': 40px
-  ),
+    'sub-item-height': 40px,
+    'hover-bg-color': vars.$menu-active-bg
+  )
 );
