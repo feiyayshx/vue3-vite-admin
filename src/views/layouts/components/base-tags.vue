@@ -2,12 +2,12 @@
   <div class="base-tags">
     <el-scrollbar style="flex: 1">
       <div class="tags-content">
-        <div class="tag-item active">
-          <span class="tag-title">商票渠道数据</span>
-          <el-icon class="icon-close" size="18"><Close /></el-icon>
-        </div>
-        <div class="tag-item">
-          <span class="tag-title">商票交易数据</span>
+        <div
+          v-for="tag in userStore.tagsList"
+          :key="tag.path"
+          :class="['tag-item', tag.path === route.path ? 'active' : '']"
+        >
+          <router-link class="tag-title" :to="tag.path">{{ tag.title }}</router-link>
           <el-icon class="icon-close" size="18"><Close /></el-icon>
         </div>
       </div>
@@ -17,7 +17,12 @@
     </div>
   </div>
 </template>
-<script setup></script>
+<script setup>
+import { useUserStore } from '@/store'
+import { useRoute } from 'vue-router'
+const route = useRoute()
+const userStore = useUserStore()
+</script>
 <style lang="scss" scoped>
 .base-tags {
   border-bottom: 1px solid $base-border;
@@ -27,6 +32,7 @@
 
   .tags-content {
     display: flex;
+    border-left: 1px solid $base-border;
     width: 100%;
     height: 40px;
 
@@ -49,6 +55,7 @@
 
       .tag-title {
         font-size: $font-size-medium;
+        text-decoration: none;
         color: $base-text;
         cursor: pointer;
 

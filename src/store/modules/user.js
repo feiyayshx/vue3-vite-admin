@@ -18,6 +18,19 @@ export const useUserStore = defineStore('user', {
     setCollapse(data) {
       this.isCollapse = data
     },
+    // 添加标签路由
+    addTagsList(data) {
+      // 重复path
+      let repeatPath = this.tagsList.find((item) => item.path === data.path)
+      const { path, meta } = data
+      if (!repeatPath) {
+        this.tagsList.push({
+          path: path,
+          ...meta
+        })
+      }
+      console.log(this.tagsList, 'tagslist')
+    },
     // 获取菜单数据
     async getMenuList() {
       let res = await userApi.queryUserInfo()
