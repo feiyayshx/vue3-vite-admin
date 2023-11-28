@@ -6,7 +6,6 @@ import { useUserStore } from '@/store/index.js'
 const staticLayoutMainRouters = []
 // 获取modules下的路由模块
 const routerModules = import.meta.glob('@/router/modules/*.js', { eager: true })
-console.log(routerModules, 'routerModules')
 Object.keys(routerModules).forEach((key) => {
   staticLayoutMainRouters.push(...routerModules[key].default)
 })
@@ -39,8 +38,8 @@ router.beforeEach((to, from, next) => {
   // path不存在时，导航到默认路由-TODO:改造成动态默认路由
   if (to.path === '/') {
     next('/dashboard')
+    return
   }
-  console.log(to, 'to')
   addTagsList(to)
   next()
 })

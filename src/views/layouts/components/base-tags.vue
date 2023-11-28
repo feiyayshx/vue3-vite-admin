@@ -8,7 +8,13 @@
           :class="['tag-item', tag.path === route.path ? 'active' : '']"
         >
           <router-link class="tag-title" :to="tag.path">{{ tag.title }}</router-link>
-          <el-icon class="icon-close" size="18"><Close /></el-icon>
+          <el-icon
+            v-if="userStore.tagsList.length > 1"
+            class="icon-close"
+            size="18"
+            @click="onCloseTag(tag)"
+            ><Close
+          /></el-icon>
         </div>
       </div>
     </el-scrollbar>
@@ -22,6 +28,11 @@ import { useUserStore } from '@/store'
 import { useRoute } from 'vue-router'
 const route = useRoute()
 const userStore = useUserStore()
+
+// 关闭标签
+const onCloseTag = (tag) => {
+  userStore.removeTag(tag, route.path)
+}
 </script>
 <style lang="scss" scoped>
 .base-tags {
