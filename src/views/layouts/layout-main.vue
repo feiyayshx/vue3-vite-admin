@@ -8,7 +8,13 @@
       <section class="lay-content-right">
         <BaseTags />
         <el-main class="main-block">
-          <router-view></router-view>
+          <router-view v-slot="{ Component }">
+            <transition name="fade-transform">
+              <keep-alive :exclude="tags.excludeCacheTags">
+                <component :is="Component" />
+              </keep-alive>
+            </transition>
+          </router-view>
         </el-main>
       </section>
     </el-container>
@@ -16,10 +22,13 @@
 </template>
 
 <script setup>
+import { useUserStore } from '@/store/index'
 import BaseHeader from './components/base-header.vue'
 import BaseMenu from './components/base-menu/index.vue'
 import BaseTags from './components/base-tags.vue'
 import { headerHeight } from '@/styles/js-var.module.scss'
+
+const { tags } = useUserStore()
 </script>
 
 <style lang="scss" scoped>

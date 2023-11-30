@@ -1,15 +1,15 @@
 <template>
-  <el-aside class="aside-wrapper" :width="userStore.isCollapse ? 'auto' : '208px'">
+  <el-aside class="aside-wrapper" :width="menu.isCollapse ? 'auto' : '208px'">
     <el-scrollbar max-height="100%" view-class="menu-scroll-view">
       <el-menu
         class="menu-ul"
         :default-active="defaultActive"
         background-color="#ffffff"
-        :collapse="userStore.isCollapse"
+        :collapse="menu.isCollapse"
         router
         @select="onMenuSelect"
       >
-        <MenuItem v-for="menu in userStore.menuList" :key="menu.id" :menu-info="menu" />
+        <MenuItem v-for="menu in menu.menuList" :key="menu.id" :menu-info="menu" />
       </el-menu>
     </el-scrollbar>
   </el-aside>
@@ -20,7 +20,7 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import MenuItem from './menu-item.vue'
 import { useUserStore } from '@/store/index.js'
-const userStore = useUserStore()
+const { menu, getMenuList } = useUserStore()
 const route = useRoute()
 
 // 默认选中的菜单项
@@ -30,7 +30,7 @@ const initData = () => {
   // 设置默认选中的菜单
   defaultActive.value = route.path
   // 请求菜单数据
-  userStore.getMenuList()
+  getMenuList()
 }
 initData()
 

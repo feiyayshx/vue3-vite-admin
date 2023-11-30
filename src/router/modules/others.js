@@ -3,8 +3,8 @@ const othersRoute = [
   // 首页/工作台
   {
     path: '/dashboard',
-    name: 'Dashboard',
-    component: () => import('@/views/dashboard/index.vue'),
+    name: 'dashboard',
+    component: () => import('@/views/dashboard/dashboard.vue'),
     meta: {
       title: '工作台'
     }

@@ -3,13 +3,13 @@
     <el-scrollbar style="flex: 1">
       <div class="tags-content">
         <div
-          v-for="tag in userStore.tagsList"
+          v-for="tag in tags.tagsList"
           :key="tag.path"
           :class="['tag-item', tag.path === route.path ? 'active' : '']"
         >
           <router-link class="tag-title" :to="tag.path">{{ tag.title }}</router-link>
           <el-icon
-            v-if="userStore.tagsList.length > 1"
+            v-if="tags.tagsList.length > 1"
             class="icon-close"
             size="18"
             @click="onCloseTag(tag)"
@@ -27,11 +27,11 @@
 import { useUserStore } from '@/store'
 import { useRoute } from 'vue-router'
 const route = useRoute()
-const userStore = useUserStore()
+const { tags, removeTag } = useUserStore()
 
 // 关闭标签
 const onCloseTag = (tag) => {
-  userStore.removeTag(tag, route.path)
+  removeTag(tag, route.path)
 }
 </script>
 <style lang="scss" scoped>
@@ -44,7 +44,6 @@ const onCloseTag = (tag) => {
   .tags-content {
     display: flex;
     border-left: 1px solid $base-border;
-    width: 100%;
     height: 40px;
 
     .tag-item {
@@ -68,6 +67,7 @@ const onCloseTag = (tag) => {
         font-size: $font-size-medium;
         text-decoration: none;
         color: $base-text;
+        outline: none;
         cursor: pointer;
 
         &:hover {

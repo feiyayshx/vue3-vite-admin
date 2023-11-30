@@ -3,19 +3,21 @@ const authorityControlRoute = [
   // 页面权限
   {
     path: '/authority-control/page-auth',
-    name: 'PageAuth',
+    name: 'page-auth',
     component: () => import('@/views/authority-control/page-auth/page-auth.vue'),
     meta: {
-      title: '页面权限'
+      title: '页面权限',
+      noCache: true
     }
   },
   // 操作权限
   {
     path: '/authority-control/operation-auth',
-    name: 'OperationAuth',
+    name: 'operation-auth',
     component: () => import('@/views/authority-control/operation-auth/operation-auth.vue'),
     meta: {
-      title: '操作权限'
+      title: '操作权限',
+      noCache: true
     }
   }
 ]

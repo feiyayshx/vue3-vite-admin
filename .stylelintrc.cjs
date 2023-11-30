@@ -41,6 +41,12 @@ module.exports = {
     'no-descending-specificity': null,
     // 不验证@未知的名字，为了兼容scss的函数
     'at-rule-no-unknown': null,
+    'scss/at-rule-no-unknown': [
+      true,
+      {
+        ignoreAtRules: ['tailwind']
+      }
+    ],
     // // 禁止空注释
     // "comment-no-empty": true,
     // // 禁止简写属性的冗余值

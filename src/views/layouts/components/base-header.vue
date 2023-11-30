@@ -4,7 +4,7 @@
       <img src="/vite.svg" class="header-logo" />
       <span class="header-title">system admin</span>
       <el-icon class="expand-icon" size="20" color="#fff" @click="setMenuCollapse">
-        <Expand v-if="userStore.isCollapse" />
+        <Expand v-if="menu.isCollapse" />
         <Fold v-else />
       </el-icon>
     </div>
@@ -14,10 +14,10 @@
 
 <script setup>
 import { useUserStore } from '@/store/index.js'
-const userStore = useUserStore()
+const { menu, setCollapse } = useUserStore()
 // 设置菜单折叠状态
 const setMenuCollapse = () => {
-  userStore.setCollapse(!userStore.isCollapse)
+  setCollapse(!menu.isCollapse)
 }
 </script>
 

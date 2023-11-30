@@ -40,6 +40,7 @@ router.beforeEach((to, from, next) => {
     next('/dashboard')
     return
   }
+  // 添加标签
   addTagsList(to)
   next()
 })

@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* 菜单样式加 */
 .el-menu-item {
   &:hover {
