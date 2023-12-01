@@ -1,6 +1,6 @@
 <template>
   <div class="base-tags">
-    <el-scrollbar style="flex: 1">
+    <el-scrollbar class="flex-1">
       <div class="tags-content">
         <div
           v-for="tag in tags.tagsList"
