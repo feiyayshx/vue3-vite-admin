@@ -6,6 +6,7 @@
           v-for="tag in tags.tagsList"
           :key="tag.path"
           :class="['tag-item', tag.path === route.path ? 'active' : '']"
+          @contextmenu.prevent="onRightMenu(tab, $event)"
         >
           <router-link class="tag-title" :to="tag.path">{{ tag.title }}</router-link>
           <el-icon
@@ -22,6 +23,10 @@
       <el-icon><ArrowDownBold /></el-icon>
     </div>
   </div>
+  <!-- 右键菜单 -->
+  <ul class="w-[100px] border">
+    <li>刷新</li>
+  </ul>
 </template>
 <script setup>
 import { useUserStore } from '@/store'
@@ -32,6 +37,10 @@ const { tags, removeTag } = useUserStore()
 // 关闭标签
 const onCloseTag = (tag) => {
   removeTag(tag, route.path)
+}
+
+const onRightMenu = () => {
+  console.log('menu')
 }
 </script>
 <style lang="scss" scoped>
