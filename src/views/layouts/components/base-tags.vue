@@ -6,7 +6,7 @@
           v-for="tag in tags.tagsList"
           :key="tag.path"
           :class="['tag-item', tag.path === route.path ? 'active' : '']"
-          @contextmenu.prevent="onRightMenu(tab, $event)"
+          @contextmenu.prevent="onRightMenu(tag, $event)"
         >
           <router-link class="tag-title" :to="tag.path">{{ tag.title }}</router-link>
           <el-icon
@@ -24,11 +24,21 @@
     </div>
   </div>
   <!-- 右键菜单 -->
-  <ul class="w-[100px] border">
-    <li>刷新</li>
+  <div
+    v-if="showRightMenu"
+    class="fixed bg-transparent w-[100vh] h-[100vh] left-0 top-0"
+    @click="onMask"
+  ></div>
+  <ul ref="rightMenuRef" v-show="showRightMenu" class="fixed bg-neutral-100 w-[100px] border">
+    <li class="px-[12px] py-[6px] text-[14px] cursor-pointer hover:bg-slate-200" @click="onRefresh">
+      刷新
+    </li>
+    <li class="px-[12px] py-[6px] text-[14px] cursor-pointer hover:bg-slate-200">关闭标签</li>
+    <li class="px-[12px] py-[6px] text-[14px] cursor-pointer hover:bg-slate-200">关闭其他</li>
   </ul>
 </template>
 <script setup>
+import { ref } from 'vue'
 import { useUserStore } from '@/store'
 import { useRoute } from 'vue-router'
 const route = useRoute()
@@ -39,8 +49,25 @@ const onCloseTag = (tag) => {
   removeTag(tag, route.path)
 }
 
-const onRightMenu = () => {
-  console.log('menu')
+// 右键菜单显示
+const showRightMenu = ref(false)
+// 右键菜单容器元素
+const rightMenuRef = ref(null)
+
+// 右键菜单事件处理
+const onRightMenu = (tag, e) => {
+  const { clientX, clientY } = e
+  rightMenuRef.value.style.left = `${clientX}px`
+  rightMenuRef.value.style.top = `${clientY}px`
+  showRightMenu.value = true
+}
+// 点击遮罩隐藏右键菜单
+const onMask = () => {
+  showRightMenu.value = false
+}
+// 刷新路由
+const onRefresh = () => {
+  console.log('refresh')
 }
 </script>
 <style lang="scss" scoped>

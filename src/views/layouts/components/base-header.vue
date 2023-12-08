@@ -8,7 +8,24 @@
         <Fold v-else />
       </el-icon>
     </div>
-    <div class="header-right-block"></div>
+    <div class="header-right-block">
+      <!-- 用户名下拉 -->
+      <el-dropdown>
+        <span>
+          <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
+          用户名
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item> 退出 </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      <!-- 设置 -->
+      <div>
+        <el-icon><Setting /></el-icon>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -46,6 +63,9 @@ const setMenuCollapse = () => {
   }
 
   .header-right-block {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     height: 100%;
     flex: 1;
   }
