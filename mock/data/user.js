@@ -8,6 +8,13 @@ export const menuList = [
     children: []
   },
   {
+    id: '6',
+    name: 'ThreeJs Demo',
+    path: '/threejs-demo',
+    icon: 'infoFilled',
+    children: []
+  },
+  {
     id: '2',
     name: '组件封装',
     path: '/postting-components',
