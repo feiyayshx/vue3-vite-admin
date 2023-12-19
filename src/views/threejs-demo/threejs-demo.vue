@@ -61,7 +61,6 @@ const createCube = () => {
     if (resizeRendererToDisplaySize(renderer)) {
       const canvas = renderer.domElement
       camera.aspect = canvas.clientWidth / canvas.clientHeight
-      console.log(camera.aspect, 'aspect')
       camera.updateProjectionMatrix()
     }
 
