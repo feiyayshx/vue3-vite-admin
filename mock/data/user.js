@@ -12,7 +12,18 @@ export const menuList = [
     name: 'ThreeJs Demo',
     path: '/threejs-demo',
     icon: 'infoFilled',
-    children: []
+    children: [
+      {
+        id: '6-1',
+        name: '基础demo',
+        path: '/threejs-demo/base'
+      },
+      {
+        id: '6-2',
+        name: '3D场景',
+        path: '/threejs-demo/3d'
+      }
+    ]
   },
   {
     id: '2',

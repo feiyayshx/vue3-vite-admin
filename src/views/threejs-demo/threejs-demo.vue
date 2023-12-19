@@ -1,12 +1,14 @@
 <template>
   <div class="h-full bg-white p-[16px]">
     <div class="grid grid-cols-4 gap-2">
+      <!-- 纹理 -->
+      <Texture />
       <!-- 立方体场景 -->
       <canvas class="w-full h-[300px]" ref="threedemo1"></canvas>
       <!-- 线条 -->
       <canvas class="w-full h-[300px]" ref="threedemo2"></canvas>
-      <div>3</div>
-      <div>3</div>
+      <!-- 场景 -->
+      <SunScene />
     </div>
   </div>
 </template>
@@ -14,6 +16,9 @@
 import { ref, onMounted } from 'vue'
 import * as THREE from 'three'
 import { resizeRendererToDisplaySize } from './utils'
+import SunScene from './base/scene.vue'
+import Texture from './base/texture.vue'
+
 onMounted(() => {
   createCube()
   drawLine()

@@ -8,14 +8,6 @@ const othersRoute = [
     meta: {
       title: '工作台'
     }
-  },
-  {
-    path: '/threejs-demo',
-    name: 'threejs',
-    component: () => import('@/views/threejs-demo/threejs-demo.vue'),
-    meta: {
-      title: 'Threejs Demo'
-    }
   }
 ]
 
