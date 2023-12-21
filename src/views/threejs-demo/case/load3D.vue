@@ -1,60 +1,31 @@
 <template>
-  <canvas class="w-[50%] h-[100%]" ref="canvasRef" />
+  <div class="h-full grid grid-cols-2 grid-rows-2">
+    <div ref="containerRef" class="relative">
+      <div class="absolute left-[12%] top-[10px] text-black">gltf</div>
+      <canvas class="w-full h-full" ref="canvasRef" />
+    </div>
+    <div>
+      <canvas class="w-full h-full" ref="canvasFbxRef"></canvas>
+    </div>
+    <div>
+      <canvas class="w-full h-full" ref="canvasVillageRef"></canvas>
+    </div>
+    <div>demo4</div>
+  </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
-import * as THREE from 'three'
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
-// import { FBXLoader } from 'three/addons/loaders/FBXLoader.js'
-import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js'
+import { onMounted } from 'vue'
+import { useCreateGltf3d, useCreateFbx3d, useCreateGltfVillage } from './model-3d'
 
-import { updateAspect } from '../utils'
+const { containerRef, canvasRef } = useCreateGltf3d()
+const { canvasFbxRef, createFbx3d } = useCreateFbx3d()
+// const { canvasDancingRef, createFbxDancing } = useCreateFbxDancing()
+const { canvasVillageRef, createGltfVillage } = useCreateGltfVillage()
 onMounted(() => {
-  create3d()
+  // gltf格式模型
+  // createGltf3d()
+  createFbx3d()
+  createGltfVillage()
 })
-
-const canvasRef = ref(null)
-
-const create3d = () => {
-  // 场景
-  const scene = new THREE.Scene()
-  scene.background = new THREE.Color(0xbfe3dd)
-  // 相机
-  const camera = new THREE.PerspectiveCamera(40, 2, 1, 100)
-  // camera.position.z = 5
-  camera.position.set(5, 2, 8)
-  // 渲染器
-  const renderer = new THREE.WebGLRenderer({ canvas: canvasRef.value, anitialias: true })
-  // 更新相机参数
-  updateAspect(renderer, camera)
-
-  const dracoLoader = new DRACOLoader()
-  dracoLoader.setDecoderPath('/node_modules/three/examples/jsm/libs/draco/gltf/')
-
-  // 3d模型加载器
-  const loader = new GLTFLoader()
-  loader.setDRACOLoader(dracoLoader)
-
-  // 加载3d模型
-  loader.load(
-    '/models/LittlestTokyo.glb',
-    (gltf) => {
-      const model = gltf.scene
-      model.position.set(1, 1, 0)
-      model.scale.set(0.01, 0.01, 0.01)
-      scene.add(model)
-      animate()
-    },
-    undefined,
-    (error) => {
-      console.log(error)
-    }
-  )
-
-  const animate = () => {
-    // requestAnimationFrame(animate)
-    renderer.render(scene, camera)
-  }
-}
 </script>
