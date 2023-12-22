@@ -5,10 +5,10 @@
       <canvas class="w-full h-full" ref="canvasRef" />
     </div>
     <div>
-      <canvas class="w-full h-full" ref="canvasFbxRef"></canvas>
+      <canvas class="w-full h-full" ref="canvasVillageRef"></canvas>
     </div>
     <div>
-      <canvas class="w-full h-full" ref="canvasVillageRef"></canvas>
+      <canvas class="fbx-bg w-full h-full" ref="canvasFbxRef"></canvas>
     </div>
     <div>demo4</div>
   </div>
@@ -18,14 +18,24 @@
 import { onMounted } from 'vue'
 import { useCreateGltf3d, useCreateFbx3d, useCreateGltfVillage } from './model-3d'
 
-const { containerRef, canvasRef } = useCreateGltf3d()
+const { containerRef, canvasRef, createGltf3d } = useCreateGltf3d()
 const { canvasFbxRef, createFbx3d } = useCreateFbx3d()
 // const { canvasDancingRef, createFbxDancing } = useCreateFbxDancing()
 const { canvasVillageRef, createGltfVillage } = useCreateGltfVillage()
 onMounted(() => {
   // gltf格式模型
-  // createGltf3d()
+  createGltf3d()
   createFbx3d()
   createGltfVillage()
 })
 </script>
+<style lang="scss">
+.lil-gui.autoPlace {
+  top: 200px;
+  right: 50%;
+}
+
+.fbx-bg {
+  background: linear-gradient(#635c66, #51433c);
+}
+</style>
