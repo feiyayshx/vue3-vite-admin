@@ -20,8 +20,13 @@ export const menuList = [
       },
       {
         id: '6-2',
-        name: '3D场景',
-        path: '/threejs-demo/3d'
+        name: 'gltf-3D',
+        path: '/threejs-demo/gltf'
+      },
+      {
+        id: '6-3',
+        name: 'fbx-3D',
+        path: '/threejs-demo/fbx'
       }
     ]
   },

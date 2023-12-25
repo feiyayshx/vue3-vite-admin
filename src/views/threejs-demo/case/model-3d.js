@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, isRef } from 'vue'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { FBXLoader } from 'three/addons/loaders/FBXLoader.js'
@@ -8,164 +8,250 @@ import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js'
 import Stats from 'three/addons/libs/stats.module.js'
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js'
 import { updateAspect } from '../utils'
+
 /**
- * @desc gltf格式3d模型加载
+ * @desc 创建一个基础3d需要的场景，相机，渲染器等
+ */
+export const createBase3D = (canvasRef, options) => {
+  if (!isRef(canvasRef)) {
+    return console.error('请使用ref绑定一个canvas元素的dom')
+  }
+  // 时钟对象
+  const clock = new THREE.Clock()
+  // 动画混合器
+  let mixer = null
+
+  // 场景
+  const scene = new THREE.Scene()
+  scene.background = new THREE.Color(0xbfe3dd)
+  // 相机
+  const camera = new THREE.PerspectiveCamera(40, 2, 1, 100)
+  // camera.position.set(5, 2, 8)
+
+  // 渲染器
+  const renderer = new THREE.WebGLRenderer({ canvas: canvasRef.value, anitialias: true })
+  // 更新相机参数
+  updateAspect(renderer, camera)
+
+  const controls = new OrbitControls(camera, renderer.domElement)
+  // controls.target.set(0, 0.5, 0)
+  controls.update()
+  controls.enablePan = false // 禁用摄像机平移
+  controls.enableDamping = true // 启用阻尼惯性
+
+  // 辐射环境贴图
+  const pmremGenerator = new THREE.PMREMGenerator(renderer)
+  // 高亮环境-类似于HDR
+  scene.environment = pmremGenerator.fromScene(new RoomEnvironment(renderer, 0.04)).texture
+
+  const axesHelper = new THREE.AxesHelper(5)
+  scene.add(axesHelper)
+
+  // 3d模型加载器
+  const loader = new GLTFLoader()
+  // 压缩/解压3d模型
+  if (options?.isDraco) {
+    const dracoLoader = new DRACOLoader()
+    dracoLoader.setDecoderPath('/node_modules/three/examples/jsm/libs/draco/gltf/')
+    loader.setDRACOLoader(dracoLoader)
+  }
+
+  // 加载3d模型-'/models/LittlestTokyo.glb',
+  /**
+   * 卡通人：https://sdpjw.oss-cn-qingdao.aliyuncs.com/static/3d/models/characters.glb
+   * 会场：https://sdpjw.oss-cn-qingdao.aliyuncs.com/static/3d/models/laozhang-dome.glb
+   * 房间：https://sdpjw.oss-cn-qingdao.aliyuncs.com/static/3d/models/scene_collision.glb
+   * https://sdpjw.oss-cn-qingdao.aliyuncs.com/static/3d/models/scene_desk_obj.glb
+   */
+  loader.load(
+    options.loadUrl,
+    (object) => {
+      if (typeof options.loadCallback === 'function') {
+        options.loadCallback(object)
+      }
+
+      let model = object
+      if (options.ext === 'gltf') {
+        model = object.scene
+      }
+      if (object.animations.length > 0) {
+        mixer = new THREE.AnimationMixer(model)
+        mixer.clipAction(object.animations[0]).play()
+      }
+
+      animate()
+    },
+    undefined,
+    (error) => {
+      console.log(error)
+    }
+  )
+
+  const animate = () => {
+    requestAnimationFrame(animate)
+
+    if (mixer) {
+      const delta = clock.getDelta()
+      mixer.update(delta)
+    }
+    controls.update()
+
+    if (options.stats) {
+      options.stats.update()
+    }
+    if (typeof options.animateCallback === 'function') {
+      options.animateCallback()
+    }
+
+    renderer.render(scene, camera)
+  }
+
+  window.addEventListener('resize', () => {
+    updateAspect(renderer, camera)
+  })
+
+  return { scene, camera, renderer, controls }
+}
+
+/**
+ * @desc 会场模型
+ */
+export const useCreateMeetingplace = () => {
+  const meetingPlaceRef = ref(null)
+  const createMeetingplace = () => {
+    const { scene, controls, camera } = createBase3D(meetingPlaceRef, {
+      ext: 'gltf', // 模型类型
+      isDraco: false, // 模型是否需要解压缩
+      loadUrl: 'https://sdpjw.oss-cn-qingdao.aliyuncs.com/static/3d/models/laozhang-dome.glb', // 模型加载地址
+      loadCallback: (gltf) => {
+        const model = gltf.scene
+        model.position.set(1, 1, 0)
+        model.scale.set(0.5, 0.5, 0.5)
+        scene.add(model)
+      },
+      animateCallback: () => {}
+    })
+    scene.add(camera)
+    camera.position.set(-7, 9, -27)
+    controls.target.set(0, 0.5, 0)
+  }
+
+  return { meetingPlaceRef, createMeetingplace }
+}
+
+/**
+ * @desc 房间模型
+ */
+export const useCreateRoomplace = () => {
+  const roomPlaceRef = ref(null)
+  const createRoomplace = () => {
+    const { scene, controls, camera } = createBase3D(roomPlaceRef, {
+      ext: 'gltf', // 模型类型
+      isDraco: false, // 模型是否需要解压缩
+      loadUrl: 'https://sdpjw.oss-cn-qingdao.aliyuncs.com/static/3d/models/scene_collision.glb', // 模型加载地址
+      loadCallback: (gltf) => {
+        const model = gltf.scene
+        model.position.set(1, 1, 0)
+        // model.scale.set(0.5, 0.5, 0.5)
+        scene.add(model)
+      },
+      animateCallback: () => {
+        // console.log(camera.position, 'pos')
+      }
+    })
+    camera.position.set(10, 7, -26)
+    controls.target.set(0, 0.5, 0)
+  }
+
+  return { roomPlaceRef, createRoomplace }
+}
+
+/**
+ * @desc 电脑模型
+ */
+export const useCreateComputer = () => {
+  const computerRef = ref(null)
+  const createComputer = () => {
+    const { scene, controls, camera } = createBase3D(computerRef, {
+      ext: 'gltf', // 模型类型
+      isDraco: false, // 模型是否需要解压缩
+      loadUrl: 'https://sdpjw.oss-cn-qingdao.aliyuncs.com/static/3d/models/scene_desk_obj.glb', // 模型加载地址
+      loadCallback: (gltf) => {
+        const model = gltf.scene
+        model.position.set(1, 1, 0)
+        // model.scale.set(0.5, 0.5, 0.5)
+        scene.add(model)
+      },
+      animateCallback: () => {
+        // console.log(camera.position, 'pos')
+        // console.log(controls.target, 'target')
+      }
+    })
+    // camera.scale.set(0.2, 0.2, 0.2)
+    camera.position.set(13, 1.5, -12)
+    controls.target.set(0, 0.5, 0)
+  }
+
+  return { computerRef, createComputer }
+}
+/**
+ * @desc 小镇模型-glb格式
  * @returns
  */
-export const useCreateGltf3d = () => {
+export const useCreateGltfSmallTown = () => {
   const containerRef = ref(null)
-  const canvasRef = ref(null)
-
-  const createGltf3d = () => {
+  const smallTownRef = ref(null)
+  const createSmallTown = () => {
     // 辅助工具-渲染帧率(1秒刷新的次数)
     const stats = new Stats()
     stats.dom.style.position = 'absolute'
     containerRef.value.appendChild(stats.dom)
 
-    // 时钟对象
-    const clock = new THREE.Clock()
-
-    let mixer = null
-
-    // 场景
-    const scene = new THREE.Scene()
-    scene.background = new THREE.Color(0xbfe3dd)
-    // 相机
-    const camera = new THREE.PerspectiveCamera(40, 2, 1, 100)
-    camera.position.set(5, 2, 8)
-
-    // 渲染器
-    const renderer = new THREE.WebGLRenderer({ canvas: canvasRef.value, anitialias: true })
-    // 更新相机参数
-    updateAspect(renderer, camera)
-
-    const controls = new OrbitControls(camera, renderer.domElement)
-    controls.target.set(0, 0.5, 0)
-    controls.update()
-    controls.enablePan = false // 禁用摄像机平移
-    controls.enableDamping = true // 启用阻尼惯性
-
-    // 辐射环境贴图
-    const pmremGenerator = new THREE.PMREMGenerator(renderer)
-    // 高亮环境-类似于HDR
-    scene.environment = pmremGenerator.fromScene(new RoomEnvironment(renderer, 0.04)).texture
-
-    // 压缩/解压3d模型
-    const dracoLoader = new DRACOLoader()
-    dracoLoader.setDecoderPath('/node_modules/three/examples/jsm/libs/draco/gltf/')
-
-    // 3d模型加载器
-    const loader = new GLTFLoader()
-    loader.setDRACOLoader(dracoLoader)
-
-    // 加载3d模型-'/models/LittlestTokyo.glb',
-    loader.load(
-      'https://sdpjw.oss-cn-qingdao.aliyuncs.com/static/3d/models/characters.glb',
-      (gltf) => {
-        console.log(gltf, 'gl')
+    const { scene, controls, camera } = createBase3D(smallTownRef, {
+      ext: 'gltf', // 模型类型
+      stats: stats,
+      isDraco: true, // 模型是否需要解压缩
+      loadUrl: '/models/LittlestTokyo.glb', // 模型加载地址
+      loadCallback: (gltf) => {
         const model = gltf.scene
-        // model.position.set(1, 1, 0)
-        // model.scale.set(0.01, 0.01, 0.01)
+        model.position.set(1, 1, 0)
+        model.scale.set(0.01, 0.01, 0.01)
         scene.add(model)
-
-        mixer = new THREE.AnimationMixer(model)
-        mixer.clipAction(gltf.animations[0]).play()
-
-        animate()
-      },
-      undefined,
-      (error) => {
-        console.log(error)
       }
-    )
-
-    const animate = () => {
-      requestAnimationFrame(animate)
-
-      const delta = clock.getDelta()
-      mixer.update(delta)
-
-      controls.update()
-      stats.update()
-      renderer.render(scene, camera)
-    }
-
-    window.addEventListener('resize', () => {
-      updateAspect(renderer, camera)
     })
+    camera.position.set(5, 2, 8)
+    controls.target.set(0, 0.5, 0)
   }
 
-  return { containerRef, canvasRef, createGltf3d }
+  return { containerRef, smallTownRef, createSmallTown }
 }
 
+/**
+ * @desc 村庄模型-gltf格式
+ * @returns
+ */
 export const useCreateGltfVillage = () => {
-  const canvasVillageRef = ref(null)
+  const villageRef = ref(null)
 
-  const createGltfVillage = () => {
-    // 场景
-    const scene = new THREE.Scene()
-    scene.background = new THREE.Color(0xbfe3dd)
-    // 相机
-    const camera = new THREE.PerspectiveCamera(40, 2, 1, 100)
-    camera.position.set(10, 2, 4)
-
-    // 渲染器
-    const renderer = new THREE.WebGLRenderer({ canvas: canvasVillageRef.value, anitialias: true })
-    // 更新相机参数
-    updateAspect(renderer, camera)
-
-    // 辅助坐标轴
-    const axesHelper = new THREE.AxesHelper(150)
-    scene.add(axesHelper)
-    const cametaHelper = new THREE.CameraHelper(camera)
-    scene.add(cametaHelper)
-
-    const controls = new OrbitControls(camera, renderer.domElement)
-    controls.target.set(2, 0.5, 0)
-    controls.update()
-    controls.enablePan = false // 禁用摄像机平移
-    controls.enableDamping = true // 启用阻尼惯性
-
-    // 辐射环境贴图
-    const pmremGenerator = new THREE.PMREMGenerator(renderer)
-    scene.environment = pmremGenerator.fromScene(new RoomEnvironment(renderer, 0.04)).texture
-
-    // 3d模型加载器
-    const loader = new GLTFLoader()
-    // 加载3d模型
-    loader.load(
-      '/models/village/scene.gltf',
-      (gltf) => {
-        console.log(gltf, 'gltf')
+  const createVillage = () => {
+    const { scene, controls, camera } = createBase3D(villageRef, {
+      ext: 'gltf', // 模型类型
+      isDraco: false, // 模型是否需要解压缩
+      loadUrl: '/models/village/scene.gltf', // 模型加载地址
+      loadCallback: (gltf) => {
         const model = gltf.scene
         model.position.set(1, 1, 0)
         model.scale.set(0.1, 0.1, 0.1)
         scene.add(model)
-        animate()
-      },
-      undefined,
-      (error) => {
-        console.log(error)
       }
-    )
-
-    const animate = () => {
-      requestAnimationFrame(animate)
-      controls.update()
-      renderer.render(scene, camera)
-    }
-
-    window.addEventListener('resize', () => {
-      updateAspect(renderer, camera)
     })
+    camera.position.set(8, 2, 3)
+    controls.target.set(2, 1, 0)
   }
 
-  return { canvasVillageRef, createGltfVillage }
+  return { villageRef, createVillage }
 }
 
-/**
- * @desc 加载fbx模型
- */
 export class ColorGUIHelper {
   constructor(object, prop) {
     this.object = object
@@ -199,6 +285,11 @@ class DegRadHelper {
     this.obj[this.prop] = THREE.MathUtils.degToRad(v)
   }
 }
+
+/**
+ * @desc 花园房子模型-fbx格式
+ * @returns
+ */
 
 export const useCreateFbx3d = () => {
   const canvasFbxRef = ref(null)
@@ -332,6 +423,11 @@ export const useCreateFbx3d = () => {
 
   return { canvasFbxRef, createFbx3d }
 }
+
+/**
+ * @desc 舞动的机器人-fbx格式
+ * @returns
+ */
 
 export const useCreateFbxDancing = () => {
   const canvasDancingRef = ref(null)

@@ -10,11 +10,20 @@ const authorityControlRoute = [
     }
   },
   {
-    path: '/threejs-demo/3d',
-    name: 'threejs3d',
-    component: () => import('@/views/threejs-demo/case/load3D.vue'),
+    path: '/threejs-demo/gltf',
+    name: 'gltf3d',
+    component: () => import('@/views/threejs-demo/case/load-gltf.vue'),
     meta: {
-      title: '3D场景',
+      title: 'gltf-3D',
+      noCache: true
+    }
+  },
+  {
+    path: '/threejs-demo/fbx',
+    name: 'fbx3d',
+    component: () => import('@/views/threejs-demo/case/load-fbx.vue'),
+    meta: {
+      title: 'fbx-3D',
       noCache: true
     }
   }
