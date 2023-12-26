@@ -26,6 +26,15 @@ const authorityControlRoute = [
       title: 'fbx-3D',
       noCache: true
     }
+  },
+  {
+    path: '/threejs-demo/wander',
+    name: 'sceneWander',
+    component: () => import('@/views/threejs-demo/case/scene-wander.vue'),
+    meta: {
+      title: '场景漫游',
+      noCache: true
+    }
   }
 ]
 

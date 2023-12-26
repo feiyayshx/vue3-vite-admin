@@ -27,6 +27,11 @@ export const menuList = [
         id: '6-3',
         name: 'fbx-3D',
         path: '/threejs-demo/fbx'
+      },
+      {
+        id: '6-4',
+        name: '场景漫游',
+        path: '/threejs-demo/wander'
       }
     ]
   },
