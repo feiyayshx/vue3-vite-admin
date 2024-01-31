@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router/index.js'
 import '@/styles/normalize.css'
 import '@/styles/element/element-reset.scss'
+import '@/styles/preflight.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import pinia from '@/store/index'
 

@@ -22,7 +22,7 @@
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item> 退出系统 </el-dropdown-item>
+            <el-dropdown-item @click="onExit"> 退出系统 </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -33,7 +33,7 @@
 <script setup>
 import { useUserStore } from '@/store/index.js'
 import { useFullscreen } from '@vueuse/core'
-const { menu, setCollapse } = useUserStore()
+const { menu, setCollapse, onExit } = useUserStore()
 
 // 设置菜单折叠状态
 const setMenuCollapse = () => {
