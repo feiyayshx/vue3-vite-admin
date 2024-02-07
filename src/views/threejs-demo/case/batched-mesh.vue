@@ -49,12 +49,14 @@ const init = () => {
   scene.background = new THREE.Color(0xffffff)
   // 相机
   camera = new THREE.PerspectiveCamera(70, 2, 1, 100)
+  camera.position.z = 30
+
   // 渲染器
   renderer = new THREE.WebGLRenderer({ canvas: batchedRef.value, antialias: true })
   updateAspect(renderer, camera)
   // 控制器
   controls = new OrbitControls(camera, renderer.domElement)
-  controls.autoRotate = false
+  controls.autoRotate = true
   controls.autoRotateSpeed = 1.0
 
   window.addEventListener('resize', () => {
@@ -65,8 +67,8 @@ const init = () => {
 const initGeometries = () => {
   geometries = [
     new THREE.ConeGeometry(1.0, 2.0),
-    new THREE.BoxGeometry(2, 2, 2),
-    new THREE.SphereGeometry(1, 16, 8)
+    new THREE.BoxGeometry(2.0, 2.0, 2.0),
+    new THREE.SphereGeometry(1.0, 16.0, 8.0)
   ]
 }
 // 创建物体
@@ -118,7 +120,7 @@ const initBatchedMesh = () => {
   mesh.frustumCulled = false
 
   for (let i = 0; i < api.count; i++) {
-    const id = mesh.addGeometry(geometries[1 % geometries.length])
+    const id = mesh.addGeometry(geometries[i % geometries.length])
     mesh.setMatrixAt(id, randomizeMatrix(matrix))
 
     const rotationMatrix = new THREE.Matrix4()
