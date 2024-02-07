@@ -75,7 +75,6 @@ export const useUserStore = defineStore('user', {
     async getMenuList() {
       let res = await userApi.queryUserInfo()
       this.menu.menuList = res || []
-      console.log(res, 'res')
     }
   }
 })

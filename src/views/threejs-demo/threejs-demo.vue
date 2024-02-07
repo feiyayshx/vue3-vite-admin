@@ -18,6 +18,10 @@ import * as THREE from 'three'
 import { resizeRendererToDisplaySize } from './utils'
 import SunScene from './base/scene.vue'
 import Texture from './base/texture.vue'
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
+import { AfterimagePass } from 'three/addons/postprocessing/AfterimagePass.js'
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js'
 
 onMounted(() => {
   createCube()
@@ -50,6 +54,15 @@ const createCube = () => {
   const cube = new THREE.Mesh(geometry, material)
   scene.add(cube)
 
+  // 后期处理
+  const composer = new EffectComposer(renderer)
+  composer.addPass(new RenderPass(scene, camera))
+  const afterimagePass = new AfterimagePass()
+  composer.addPass(afterimagePass)
+
+  const outputPass = new OutputPass()
+  composer.addPass(outputPass)
+
   // 光照
   const light = new THREE.DirectionalLight(0xffffff, 3)
   light.position.set(-1, 2, 6)
@@ -62,11 +75,15 @@ const createCube = () => {
       const canvas = renderer.domElement
       camera.aspect = canvas.clientWidth / canvas.clientHeight
       camera.updateProjectionMatrix()
+
+      composer.setSize(canvas.clientWidth, canvas.clientHeight)
     }
 
     cube.rotation.x += 0.01
     cube.rotation.y += 0.01
-    renderer.render(scene, camera)
+    // afterimagePass.enabled = true
+    composer.render()
+    // renderer.render(scene, camera)
   }
 
   animate()

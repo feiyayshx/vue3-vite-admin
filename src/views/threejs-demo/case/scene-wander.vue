@@ -95,8 +95,8 @@ const useCreateSceneWander = () => {
     })
 
     controls = new OrbitControls(camera, renderer.domElement)
-    controls.autoRotate = false
-    // controls.autoRotateSpeed = 3
+    controls.autoRotate = true
+    controls.autoRotateSpeed = 2
     controls.enablePan = true // 平移
     controls.enableZoom = true // 缩放
     controls.enableDamping = false // 启用阻尼

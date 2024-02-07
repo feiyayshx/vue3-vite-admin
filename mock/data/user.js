@@ -32,6 +32,11 @@ export const menuList = [
         id: '6-4',
         name: '场景漫游',
         path: '/threejs-demo/wander'
+      },
+      {
+        id: '6-5',
+        name: '批量网格',
+        path: '/threejs-demo/batched-mesh'
       }
     ]
   },

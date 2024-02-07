@@ -17,9 +17,143 @@
 
 ### 材质
 
+1. LineBasicMaterial,基础线条材质
+
+```js
+const material = new THREE.LineBasicMaterial({
+  color: '0xffffff',
+  linewidth: 1,
+  linecap: 'round',
+  linejoin: 'round'
+})
+```
+
+2. LineDashedMaterial,虚线材质
+
+```js
+const material = new THREE.LineDashedMaterial({
+  color: '0xffffff',
+  linewidth: 1,
+  scale: 1,
+  dashSize: 3,
+  gapSize: 1
+})
+```
+
+3. MeshBasicMaterial,基础网格材质，以简单着色方式绘制几何体,不受光照影响
+
+```js
+const material = new THREE.MeshBasicMaterial({
+  color: '0xffffff', // 材质颜色
+  map: new THREE.TextureLoader().load('/demo.png'), // 颜色贴图
+  envMap: null, // 环境贴图
+  lightMap: null // 光照贴图
+})
+```
+
+4. MeshDepthMaterial, 深度网格材质，按深度绘制几何体材质,深度基于相机远近平面，白色最近，黑色最远
+
+5. MeshDistanceMaterial, 实现物体阴影投射，物体透明部分不投射阴影
+
+6. MeshLamberMaterial, lamber网格材质，一种非光泽表面的材质，没有镜面高光
+
+7. MeshPhongMaterial, phong网格材质， 一种用于具有镜面高光的光泽表面的材质
+
+8. MeshPhysicalMaterial，物理网格材质，渲染更费性能，使用此材质应始终指定environment map
+
+9. MeshStandardMaterial, 一种基于物理的标准材质，使用此材质应始终指定environment map
+
+10. PointMaterial, 点材质
+
+11. ShaderMaterial, 着色器材质
+
+12. RawShaderMaterial, 着色器材质，且uniforms和attributes 不会自动添加到GLSL shader中
+
+13. ShadowMaterial, 阴影材质
+
+14. MeshToonMaterial， 一种卡通着色材质
+
 ### 几何体
 
+1. BoxGeometry, 立体缓冲几何体
+
+```js
+const geometry = new THREE.BoxGeometry(
+  width,
+  height,
+  depth,
+  widthSegments,
+  heightSegments,
+  depthSegments
+)
+```
+
+- width: x轴上面的宽度
+- height: y轴上面的宽度
+- depth: z轴上面的宽度
+- widthSegments: 宽度的分段数
+- heightSegments: 高度的分段数
+- depthSegments: 深度的分段数
+
+2. SphereGeometry: 球缓冲立方体，用于生成球体的类
+
+```js
+const geometry = new THREE.SphereGeometry(
+  radius,
+  widthSegments,
+  heightSegments,
+  phiStart,
+  phiLength,
+  thetaStart,
+  thetaLength
+)
+```
+
+- radius: 球体半径，默认值1
+- widthSegments: 水平分段数，最小值3，默认值32
+- heightSegments: 垂直分段数，最小值2，默认值未16
+- phiStart: 水平起始角度，默认值0
+- phiLength: 水平扫描角度的大小，默认值Math.PI\*2
+- thetaStart: 垂直起始角度，默认值0
+- thetaLength: 垂直扫描角度大小，默认值Math.PI
+
+3. ConeGeometry，圆锥缓冲几何体，用于生成圆锥几何体的类
+
+```js
+const geometry = new THREE.ConeGeometry(
+  radius,
+  height,
+  radialSegments,
+  heightSegments,
+  openEnded,
+  thetaStart,
+  thetaLength
+)
+```
+
+- radius: 圆锥底部的半径，默认值1
+- height: 圆锥的高度，默认值1
+- radialSegments: 圆锥侧面周围的分段数，默认值32
+- heightSegments: 圆锥侧面沿着其高度的分段数，默认值1
+- openEnded: 圆锥的底面是开放的还是封顶的，默认值为false,封顶
+- thetaStart: 第一个分段的起始角度，默认0
+- thetaLength: 圆锥底面圆扇区的中心角，默认值2\*PI
+
 ### 物体
+
+1. Mesh, 网格
+
+```js
+new THREE.Mesh(geometry:BufferGeometry,material: Material)
+```
+
+2. BatchedMesh,批处理网格，支持多绘制批量渲染（相同材质不同几何形状的对象），提高渲染性能
+
+```js
+new THREE.BatchedMesh(maxGeometryCount, maxVertexCount, maxIndexCount, material)
+```
+
+3.
 
 ### 纹理
 
@@ -56,10 +190,22 @@
 threejs坐标系：x正向-右，y正向-上，z正向-外
 blender坐标系：x正向-右，y正向-里，z正向-上
 
-## 全景漫游实现方案
-
 ## 使用后期处理
 
 ## 矩阵变换
 
 ## 动画系统
+
+## 数学库
+
+1. Euler, 欧拉角,三维旋转的一种表示方式
+
+2. Quaternion, 四元数
+   表示：h=a+bi+cj+dk, i,j,k有如下关系：
+   i^2=-1, i^2 = j^2 = k^2 = ijk =-1
+
+3. Vector3, 三维向量
+
+4. Matrix4,四维矩阵
+
+## 全景漫游实现方案

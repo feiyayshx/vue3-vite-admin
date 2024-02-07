@@ -35,6 +35,15 @@ const authorityControlRoute = [
       title: '场景漫游',
       noCache: true
     }
+  },
+  {
+    path: '/threejs-demo/batched-mesh',
+    name: 'batchedMesh',
+    component: () => import('@/views/threejs-demo/case/batched-mesh.vue'),
+    meta: {
+      title: '批量网格',
+      noCache: true
+    }
   }
 ]
 
