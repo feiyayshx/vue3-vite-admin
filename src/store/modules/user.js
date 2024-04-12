@@ -2,8 +2,8 @@
 import { defineStore } from 'pinia'
 import userApi from '@/apis/user.js'
 import router from '@/router/index'
-
-// import { reactive} from 'vue'
+import Storage from '@/utils/storage.js'
+import { TOKEN } from '@/constants/constant-storage.js'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -19,10 +19,16 @@ export const useUserStore = defineStore('user', {
   }),
   actions: {
     setIsLogined(data) {
+      console.log(data, 'data')
       this.isLogined = data
     },
     setCollapse(data) {
       this.menu.isCollapse = data
+    },
+    // 退出系统
+    onExit() {
+      Storage.remove(TOKEN)
+      router.push('/login')
     },
     // 添加标签路由
     addTagsList(data) {

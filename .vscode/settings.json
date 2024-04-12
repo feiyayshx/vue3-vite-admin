@@ -5,9 +5,9 @@
   "editor.tabSize": 2,
   // 保存时自动修复
   "editor.codeActionsOnSave": {
-    "source.fixAll": false,
-    "source.fixAll.eslint": true,
-    "source.fixAll.stylelint": true
+    "source.fixAll": "never",
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
   },
   // 编辑器默认的格式化工具
   "editor.defaultFormatter": "esbenp.prettier-vscode",

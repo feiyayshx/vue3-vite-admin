@@ -2,6 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LayoutMain from '../views/layouts/layout-main.vue'
 import login from '../views/login/login.vue'
 import { useUserStore } from '@/store/index.js'
+import Storage from '@/utils/storage.js'
+import { TOKEN } from '@/constants/constant-storage.js'
+
 // 静态路由
 const staticLayoutMainRouters = []
 // 获取modules下的路由模块
@@ -35,13 +38,17 @@ export const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const { addTagsList } = useUserStore()
+  const token = Storage.get(TOKEN)
   // path不存在时，导航到默认路由-TODO:改造成动态默认路由
   if (to.path === '/') {
-    next('/dashboard')
-    return
+    next({ path: '/login', replace: true })
+  } else if (to.path === '/login' && token) {
+    next({ path: '/dashboard', replace: true })
+  } else if (to.path !== '/login' && !token) {
+    next({ path: '/login', replace: true })
+  } else {
+    next()
+    addTagsList(to)
   }
-  // 添加标签
-  addTagsList(to)
-  next()
 })
 export default router
