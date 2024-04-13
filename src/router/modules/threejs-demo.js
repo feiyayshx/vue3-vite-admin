@@ -44,6 +44,15 @@ const authorityControlRoute = [
       title: '批量网格',
       noCache: true
     }
+  },
+  {
+    path: '/threejs-demo/3d-architecture',
+    name: 'architecture',
+    component: () => import('@/views/threejs-demo/case/load-ifc.vue'),
+    meta: {
+      title: '建筑模型',
+      noCache: true
+    }
   }
 ]
 

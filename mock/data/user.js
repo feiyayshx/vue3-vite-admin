@@ -37,6 +37,11 @@ export const menuList = [
         id: '6-5',
         name: '批量网格',
         path: '/threejs-demo/batched-mesh'
+      },
+      {
+        id: '6-6',
+        name: '建筑模型',
+        path: '/threejs-demo/3d-architecture'
       }
     ]
   },

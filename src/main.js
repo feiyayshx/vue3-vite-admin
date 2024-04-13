@@ -6,6 +6,8 @@ import '@/styles/element/element-reset.scss'
 import '@/styles/preflight.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import pinia from '@/store/index'
+// import 'three-mesh-bvh'
+// import 'three/addons/jsm/utils/BufferGeometryUtils.js'
 
 import '/mock/index.js'
 let app = createApp(App)

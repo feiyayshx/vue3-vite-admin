@@ -15,6 +15,20 @@
 
 ## API分类
 
+### Scene 场景
+
+添加背景
+
+```js
+scene.background = new THREE.Color(0x1a1a1a)
+```
+
+添加雾化效果
+
+```js
+scene.fog = new THREE.Fog(0x1a1a1a, 1, 1000)
+```
+
 ### 材质
 
 1. LineBasicMaterial,基础线条材质
@@ -153,7 +167,22 @@ new THREE.Mesh(geometry:BufferGeometry,material: Material)
 new THREE.BatchedMesh(maxGeometryCount, maxVertexCount, maxIndexCount, material)
 ```
 
-3.
+### 光照
+
+1. AmbientLight: 环境光，均匀照亮场景中的所有物体
+
+```js
+const light = new THREE.AmbientLight(0x404040)
+scene.add(light)
+```
+
+2. DirectionalLight: 平行光，从它发射的光线都是平行的，用来模拟太阳光的效果。
+
+```js
+// 光的颜色，及强度
+const light = new THREE.DirectionalLight(0xffffff, 0.5)
+scene.add(light)
+```
 
 ### 纹理
 
@@ -165,6 +194,8 @@ new THREE.BatchedMesh(maxGeometryCount, maxVertexCount, maxIndexCount, material)
 
 **纹理映射**
 
+### 贴图
+
 ## 核心对象
 
 **轨道控制器OrbitControls：**
@@ -175,9 +206,9 @@ new THREE.BatchedMesh(maxGeometryCount, maxVertexCount, maxIndexCount, material)
 - 调整相机在坐标系中的位置
 - 坐标改变重新渲染
 
-压缩/解压缩模型DRACOLoader
+**压缩/解压缩模型DRACOLoader**
 
-环境贴图RoomEnvironment
+**环境贴图RoomEnvironment**
 
 如何确定相机位置，控制器位置，模型位置？
 
@@ -209,3 +240,7 @@ blender坐标系：x正向-右，y正向-里，z正向-上
 4. Matrix4,四维矩阵
 
 ## 全景漫游实现方案
+
+## THREEJS相关库
+
+### three-mesh-bvh

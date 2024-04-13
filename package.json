@@ -18,8 +18,11 @@
     "element-plus": "^2.2.32",
     "pinia": "^2.0.32",
     "three": "^0.159.0",
+    "three-mesh-bvh": "0.5.23",
     "vue": "^3.2.45",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.1.6",
+    "web-ifc": "0.0.36",
+    "web-ifc-three": "0.0.126"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
