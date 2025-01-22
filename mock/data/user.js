@@ -102,3 +102,19 @@ export const menuList = [
     ]
   }
 ]
+
+/* 用户信息 */
+export const followUserInfo = [
+  {
+    id: 1,
+    nickname: '花城'
+  },
+  {
+    id: 2,
+    nickname: '棋鬼王'
+  },
+  {
+    id: 3,
+    nickname: '星君'
+  }
+]

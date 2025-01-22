@@ -1,4 +1,5 @@
 import IMDb from './db'
+import userApi from '@/apis/user'
 // import { SPECIAL_CONVERSATION, HIDDEN } from '@/im/constant'
 // import imApi from '@/apis/im'
 
@@ -18,6 +19,8 @@ const userStore = {
   indexes: [],
   create(db) {
     if (!db.objectStoreNames.contains(this.name)) {
+      console.log('create')
+
       const store = db.createObjectStore(this.name, {
         keyPath: this.keyPath,
         autoIncrement: this.autoIncrement
@@ -27,28 +30,14 @@ const userStore = {
       })
     }
   },
-  // 预加载系统用户信息
-  // async preloadSystemUserInfo() {
-  //   const systemUserIds = Object.values(SPECIAL_CONVERSATION).filter(
-  //     (item) => !HIDDEN.includes(item)
-  //   )
-  //   const result = []
-  //   for (let i = 0; i < systemUserIds.length; i++) {
-  //     const dbData = await this.getUserById(systemUserIds[i])
-  //     if (dbData) continue
-  //     const user = await imApi.getSystemUserBaseInfo(systemUserIds[i])
-  //     result.push({
-  //       id: systemUserIds[i],
-  //       nickname: user.nickname,
-  //       avatar: user.avatar,
-  //       remark: ''
-  //     })
-  //   }
-  //   if (result.length) {
-  //     await this.syncData(result)
-  //   }
-  // },
-  // 批量添加或修改用户信息
+  // 预加载用户信息
+  async preloadUserInfo() {
+    const userList = await userApi.queryFollowUser()
+    if (userList.length) {
+      await this.syncData(userList)
+    }
+  },
+  // 批量添加用户信息
   async syncData(users) {
     const transaction = IMDb.database.transaction([this.name], 'readwrite')
     const store = transaction.objectStore(this.name)
@@ -62,60 +51,6 @@ const userStore = {
       users.forEach((user) => {
         store.put(user)
       })
-    })
-  },
-  // 根据缓存完善会话信息
-  async completeConversationInfo(data, key) {
-    if (!Array.isArray(data) || typeof key !== 'string') {
-      return
-    }
-    const transaction = IMDb.database.transaction([this.name], 'readwrite')
-    const store = transaction.objectStore(this.name)
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].conversationName) continue
-      await new Promise((resolve) => {
-        const request = store.get(data[i][key])
-        request.onsuccess = () => {
-          data[i] = {
-            ...data[i],
-            conversationName: (request.result?.remark || request.result?.nickname) ?? '',
-            conversationAvatar: request.result?.avatar ?? '',
-            filterKeywords: [request.result?.remark, request.result?.nickname]
-          }
-          resolve()
-        }
-      })
-    }
-    await new Promise((resolve) => {
-      transaction.oncomplete = () => {
-        resolve(data)
-      }
-    })
-  },
-  // 完善参数中的用户信息
-  async completeUserInfo(data, key) {
-    if (!Array.isArray(data) || typeof key !== 'string') {
-      return
-    }
-    const transaction = IMDb.database.transaction([this.name], 'readwrite')
-    const store = transaction.objectStore(this.name)
-    for (let i = 0; i < data.length; i++) {
-      await new Promise((resolve) => {
-        const request = store.get(data[i][key])
-        request.onsuccess = () => {
-          Object.assign(data[i], {
-            nickname: request.result?.nickname ?? '',
-            avatar: request.result?.avatar ?? '',
-            remark: request.result?.remark ?? ''
-          })
-          resolve()
-        }
-      })
-    }
-    await new Promise((resolve) => {
-      transaction.oncomplete = () => {
-        resolve(data)
-      }
     })
   },
   // 更新某个用户信息

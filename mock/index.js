@@ -1,5 +1,5 @@
 import Mock from 'mockjs'
-import { menuList } from '/mock/data/user.js'
+import { menuList, followUserInfo } from '/mock/data/user.js'
 const responseData = (code, msg, data) => {
   return {
     code: code,
@@ -9,3 +9,4 @@ const responseData = (code, msg, data) => {
 }
 
 Mock.mock('/v3-admin/getUserInfo', responseData(200, '请求成功', menuList))
+Mock.mock('/v3-admin/followUserInfo', responseData(200, '请求成功', followUserInfo))

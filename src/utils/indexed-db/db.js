@@ -11,13 +11,18 @@ const DATABASE = {
       }
       const request = indexedDB.open(`${NAME}_${uid}`, VERSION)
       request.onsuccess = (event) => {
+        console.log('success')
         this.database = event.target.result
+        userStore.preloadUserInfo().then(() => {
+          resolve(event.target.result)
+        })
       }
       request.onerror = (error) => {
         console.log('数据库创建失败')
         reject(error)
       }
       request.onupgradeneeded = (event) => {
+        console.log('grade')
         this.createStore(event.target.result)
       }
     })
